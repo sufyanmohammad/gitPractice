@@ -1,14 +1,17 @@
 # This is a basic workflow to help you get started with Actions
 
-name: AppVersion
+name: Create Release
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
+    tags: 
+      - 'v*'
   pull_request:
     branches: [ "main" ]
+    
 
   workflow_dispatch:
 
@@ -20,14 +23,25 @@ jobs:
 
     
     steps:
-      
+      - name: Checkout code
       - uses: actions/checkout@v3
       - name: Create Github Release
         id: create-new-release
-        uses: actions/create-release@v1.0.0
+        uses: actions/create-release@v1
         env: 
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.rum_number }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }} 
+          
+      - name: Upload release asset 
+        id: upload-release-asset
+        uses: actions/upload-release-asst@v1
+        env:
+          GITHUB_TOKENS: ${{ secrets.RELEASE_TOKEN }}
+        with: 
+          upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+          asset_path: ./site.zip
+          asset_name: site-v${{ github.ref}}.zip
+          asset_content_type: application/zip
           
