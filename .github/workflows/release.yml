@@ -31,5 +31,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.rum_number }}
+          release_name: Release ${{ github.run_number }}
           
