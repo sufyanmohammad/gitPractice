@@ -1,6 +1,9 @@
 name: Generate Tag
 
-on: push
+on:
+  push:
+    branches:
+      - dev  # Trigger the workflow when a push is made to the dev branch
 
 jobs:
   generate_tag:
@@ -10,5 +13,7 @@ jobs:
       - uses: actions/github-tag@v4
         id: tag
         with:
-          release_branches: dev*
-          pre_release_branches: hotfix*
+          release_branches: [main]  # Specify the branches to generate tags for
+          tag_name: v${{ github.sha }}  # Use the commit SHA as the tag name
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication
