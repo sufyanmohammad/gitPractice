@@ -1,0 +1,14 @@
+name: Generate Tag
+
+on: push
+
+jobs:
+  generate_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-tag@v4
+        id: tag
+        with:
+          release_branches: release*
+          pre_release_branches: hotfix*
