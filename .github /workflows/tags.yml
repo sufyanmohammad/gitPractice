@@ -10,5 +10,5 @@ jobs:
       - uses: actions/github-tag@v4
         id: tag
         with:
-          release_branches: release*
+          release_branches: dev*
           pre_release_branches: hotfix*
